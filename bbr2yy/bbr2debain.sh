@@ -5,7 +5,7 @@ export PATH
 # Check if user is root
 if [ $(id -u) != "0" ]; then
     echo "Error! You must be root to run this script!"
-    echo "錯誤！你必須要以root身份運行此腳本！"
+    echo "错误！你必须要以root身份运行此脚本！"
     exit 1
 fi
 
@@ -20,13 +20,12 @@ if [ $? -eq 0 ]; then
     echo "    Oh Nononononono! You are using CentOS?
     Unfortunately, this script only works for Debian."
     echo "    哦不不不不不不！你正在使用CentOS？
-    不幸的是，這個腳本只適用於Debian。
     请使用另一个脚本运行！"
     exit 0
 fi
 
 install_rc.local() {
-    [ -f "/etc/rc.local" ] && echo "Error! /etc/rc.local already exist." && echo "錯誤！/etc/rc.local 已經存在。" && exit 1
+    [ -f "/etc/rc.local" ] && echo "Error! /etc/rc.local already exist." && echo "错误！/etc/rc.local已经存在。" && exit 1
     systemctl stop rc-local
     cat > /etc/rc.local << EOF
 #!/bin/sh -e
@@ -75,8 +74,8 @@ check_environment() {
     cat /etc/sysctl.conf | grep -q "net.ipv4.tcp_ecn" && [ $? -eq 0 ] && [[ "$(cat /sys/module/tcp_bbr2/parameters/ecn_enable)" = "Y" ]] && cat /etc/rc.local | grep -q "echo 1 > /sys/module/tcp_bbr2/parameters/ecn_enable" && [ $? -eq 0 ] && environment_ecn="true"
     linux_images=$(dpkg -l | grep linux-image | awk '{print $2}') && linux_images=${linux_images/"linux-image-5.2.0-rc3+"/} && [ ! -z "$linux_images" ] && environment_otherkernels="true"
 
-    [[ "$environment_debian" != "true" ]] && echo "Error! Your OS is not Debian! This script is only suitable for Debian 9/10." && echo "錯誤！你的系統不是Debian，此腳本只適用於Debian 9/10！" && exitone="true"
-    [[ "$environment_x64" != "true" ]] && echo "Error! Your OS is not x86_64! This script is only suitable for x86_64 OS." && echo "錯誤！你的系統不是64位系統，此腳本只適用於64位系統(x86_64)！" && exitone="true"
+    [[ "$environment_debian" != "true" ]] && echo "Error! Your OS is not Debian! This script is only suitable for Debian 9/10." && echo "错误！你的系统不是Debian，此脚本只适用于Debian 9/10！" && exitone="true"
+    [[ "$environment_x64" != "true" ]] && echo "Error! Your OS is not x86_64! This script is only suitable for x86_64 OS." && echo "错误！你的系统不是64位系統，此脚本只适用于64位系統(x86_64)！" && exitone="true"
 
     [[ "$exitone" = "true" ]] && exit 1
 }
@@ -84,22 +83,22 @@ check_environment() {
 analyze_environment() {
     if [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]]; then
         if [[ "$environment_kernel" = "true" ]]; then
-            echo -e "Kernel: ${green_color}Installed${color_end}-${green_color}Using${color_end} | 內核: ${green_color}已安裝${color_end}-${green_color}使用中${color_end}"
+            echo -e "Kernel: ${green_color}Installed${color_end}-${green_color}Using${color_end} | 内核: ${green_color}已安装${color_end}-${green_color}使用中${color_end}"
         else
-            echo -e "Kernel: ${green_color}Installed${color_end}-${red_color}Not using${color_end} | 內核: ${green_color}已安裝${color_end}-${red_color}未使用${color_end}"
+            echo -e "Kernel: ${green_color}Installed${color_end}-${red_color}Not using${color_end} | 内核: ${green_color}已安装${color_end}-${red_color}未使用${color_end}"
         fi
     else
-        echo -e "Kernel: ${red_color}Not installed${color_end} | 內核: ${red_color}未安裝${color_end}"
+        echo -e "Kernel: ${red_color}Not installed${color_end} | 内核: ${red_color}未安裝${color_end}"
     fi
 
     if [[ "$environment_bbr2" = "true" ]]; then
-        echo -e "BBR2: ${green_color}Enabled${color_end} | BBR2: ${green_color}已啟用${color_end}"
+        echo -e "BBR2: ${green_color}Enabled${color_end} | BBR2: ${green_color}已启用${color_end}"
     elif [[ "$environment_kernel" = "true" ]]; then
         echo -e "BBR2: ${red_color}Disabled${color_end} | BBR2: ${red_color}已禁用${color_end}"
     fi
 
     if [[ "$environment_ecn" = "true" ]]; then
-        echo -e "ECN: ${green_color}Enabled${color_end} | ECN: ${green_color}已啟用${color_end}"
+        echo -e "ECN: ${green_color}Enabled${color_end} | ECN: ${green_color}已启用${color_end}"
     elif [[ "$environment_bbr2" = "true" ]]; then
         echo -e "ECN: ${red_color}Disabled${color_end} | ECN: ${red_color}已禁用${color_end}"
     fi
@@ -159,11 +158,11 @@ disable_ecn() {
 remove_other_kernels() {
     if [[ "$environment_kernel" != "true" ]]; then
         echo 'Abort kernel removal? Choose <No>'
-        echo '當出現"Abort kernel removal?"選項時，請選擇 <No>'
+        echo '当出现"Abort kernel removal?"选项时，请选择 <No>'
         echo 'Abort kernel removal? Choose <No>'
-        echo '當出現"Abort kernel removal?"選項時，請選擇 <No>'
+        echo '当出现"Abort kernel removal?"选项时，请选择 <No>'
         echo 'Abort kernel removal? Choose <No>'
-        echo '當出現"Abort kernel removal?"選項時，請選擇 <No>'
+        echo '当出现"Abort kernel removal?"选项时，请选择 <No>'
         sleep 5s
     fi
     apt-get purge -y $linux_images
@@ -177,55 +176,55 @@ do_option() {
             exit 0
             ;;
         1)
-            [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
+            [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
             install_kernel
             check_environment
             if [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]]; then
                 echo "Please reboot and then run this script again to enable BBR2."
-                echo "請重新啟動然後再次執行此腳本以啟動BBR2。"
-                read -p "Reboot now? | 現在立即重啟？ (y/n) " reboot
+                echo "请重新启动再次安装BBR2。"
+                read -p "Reboot now? | 限制立刻重启？ (y/n) " reboot
                 [ -z "${reboot}" ] && reboot="y"
             	if [[ $reboot == [Yy] ]]; then
             		echo "Rebooting..."
-                	echo "正在重新啟動..."
+                	echo "正在重新启动..."
             		reboot
             	fi
             else
                 echo "Error! Kernel install failed!"
-                echo "錯誤！內核安裝失敗！"
+                echo "错误！内核安装失败！"
                 return 1
             fi
             ;;
         2)
-            [[ "$environment_kernel" != "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
-            [[ "$environment_bbr2" = "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
+            [[ "$environment_kernel" != "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
+            [[ "$environment_bbr2" = "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
             enable_bbr2
             ;;
         3)
-            [[ "$environment_bbr2" != "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
+            [[ "$environment_bbr2" != "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
             disable_bbr2
             ;;
         4)
-            [[ "$environment_bbr2" != "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
-            [[ "$environment_ecn" = "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
+            [[ "$environment_bbr2" != "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
+            [[ "$environment_ecn" = "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
             enable_ecn
             ;;
         5)
-            [[ "$environment_ecn" != "true" ]] && echo "Invalid option." && echo "無效的選項。" && return 1
+            [[ "$environment_ecn" != "true" ]] && echo "Invalid option." && echo "无效选项。" && return 1
             disable_ecn
             ;;
         6)
             if [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && [[ "$environment_otherkernels" = "true" ]]; then
                 remove_other_kernels
             else
-                echo "Invalid option." && echo "無效的選項。" && return 1
+                echo "Invalid option." && echo "无效选项。" && return 1
             fi
             ;;
         7)
             if [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && [[ "$environment_kernel" != "true" ]]; then
                 reboot
             else
-                echo "Invalid option." && echo "無效的選項。" && return 1
+                echo "Invalid option." && echo "无效选项。" && return 1
             fi
             ;;
             
@@ -240,9 +239,9 @@ auto_install() {
         Error! Install failed!
         Umm... It seems like you have installed the kernel for BBR2 but not using it...
         Maybe you have to manually remove other kernels and then reboot.
-        錯誤！安裝失敗！
-        呃...這看起來你已經安裝了BBR2的內核但是並沒有啟用。
-        或許你需要手動卸載其餘的內核然後重啟。
+        错误！安裝失败！
+        已安装BBR2但是没启用。
+        或手动卸载其他内核。
 EOF
         cat $this_file_dir/bbr2.sh.log
         exit 1
@@ -254,7 +253,7 @@ EOF
             reboot
         else
             echo "Error! Kernel install failed!" >> $this_file_dir/bbr2.sh.log
-            echo "錯誤！內核安裝失敗！" >> $this_file_dir/bbr2.sh.log
+            echo "错误！内核安装失败！" >> $this_file_dir/bbr2.sh.log
             cat $this_file_dir/bbr2.sh.log
             exit 1
         fi
@@ -280,7 +279,6 @@ EOF
 while :
 do
 echo "+----------------------------------+" &&
-echo "|               夜桜               |" &&
 echo "|   BBR2 一鍵安裝 for Debian x64   |" &&
 echo "|         2019-10-30 Alpha         |" &&
 echo "+----------------------------------+"
@@ -288,20 +286,20 @@ echo "+----------------------------------+"
 check_environment
 analyze_environment
 
-echo "What do you want to do? | 請問您今天要來點兔子嗎？"
+echo "What do you want to do? | 您要来点啥？"
 
 while :
 do
-    echo "0) Exit script. | 退出腳本。 (0"
-    if [[ "$environment_headers" != "true" ]] || [[ "$environment_image" != "true" ]]; then echo "1) Install the kernel for BBR2. | 安裝適用於BBR2的內核。 (1"; fi
-    [[ "$environment_kernel" = "true" ]] && [[ "$environment_bbr2" != "true" ]] && echo "2) Enable BBR2. | 啟用BBR2。 (2"
+    echo "0) Exit script. | 退出脚本。 (0"
+    if [[ "$environment_headers" != "true" ]] || [[ "$environment_image" != "true" ]]; then echo "1) Install the kernel for BBR2. | 安裝通用BBR2的内核。 (1"; fi
+    [[ "$environment_kernel" = "true" ]] && [[ "$environment_bbr2" != "true" ]] && echo "2) Enable BBR2. | 启用BBR2。 (2"
     [[ "$environment_bbr2" = "true" ]] && echo "3) Disable BBR2. | 禁用BBR2。 (3"
-    [[ "$environment_bbr2" = "true" ]] && [[ "$environment_ecn" != "true" ]] && echo "4) Enable ECN. | 啟用ECN。 (4"
+    [[ "$environment_bbr2" = "true" ]] && [[ "$environment_ecn" != "true" ]] && echo "4) Enable ECN. | 启用ECN。 (4"
     [[ "$environment_ecn" = "true" ]] && echo "5) Disable ECN. | 禁用ECN。 (5"
     [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && [[ "$environment_otherkernels" = "true" ]] && echo "6) Remove other kernels. | 卸載其餘內核。 (6"
-    [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && [[ "$environment_kernel" != "true" ]] && echo "7) reboot. | 重新啟動。 (7"
+    [[ "$environment_headers" = "true" ]] && [[ "$environment_image" = "true" ]] && [[ "$environment_kernel" != "true" ]] && echo "7) reboot. | 重新启动。 (7"
     unset choose_an_option
-    read -p "Choose an option. | 選擇一個選項。 (Input a number | 輸入一個數字) " choose_an_option
+    read -p "Choose an option. | 选择一个选项。 (Input a number | 输入一个数字) " choose_an_option
 
     if [[ "$choose_an_option" = "0" ]] || [[ "$choose_an_option" = "1" ]] || [[ "$choose_an_option" = "2" ]] || [[ "$choose_an_option" = "3" ]] || [[ "$choose_an_option" = "4" ]] || [[ "$choose_an_option" = "5" ]] || [[ "$choose_an_option" = "6" ]] || [[ "$choose_an_option" = "7" ]]; then
         do_option $choose_an_option
