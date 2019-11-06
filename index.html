@@ -1,27 +1,68 @@
-<html><!--隐URL转发-->
-    <head>
-        <title>ThinkGet技术备份点</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta id="mymeta" />
-    </head>
-    <script type="text/javascript">
-        var mobileAgent = new Array("iphone", "ipod", "ipad", "android", "mobile", "blackberry", "webos", "incognito", "webmate", "bada", "nokia", "lg", "ucweb", "skyfire");
-        var browser = navigator.userAgent.toLowerCase();
-        var isMobile = false;
-        for (var i=0; i<mobileAgent.length; i++)
-        {
-            if (browser.indexOf(mobileAgent[i])!=-1)
-            {
-                isMobile = true;
-                mymeta.name = "viewport";
-                mymeta.content = "width=device-width, initial-scale=1, maximum-scale=1";
-                break;
-            }
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .mtmb10{margin-top:10px;margin-bottom:10px;}
+        body{
+            background: url("img/background.jpg");
         }
-    </script>
-    <frameset cols="0,*" frameborder="NO" border="0" framespacing="0">
-        <frame src="about:blank" scrolling="NO" noresize />
-        <frame src="https://think.baklib.com" />
-    </frameset>
-    <noframes></noframes>
+        .subscript{
+            color: #fff;
+            height: 30px;
+            width: 100px;
+            position: absolute;
+            right: -30px;
+            top:2px;
+            text-align: center;
+            line-height: 30px;
+            background-color: #0c60ee;
+            -moz-transform:rotate(45deg);
+            -webkit-transform:rotate(45deg);
+            -o-transform:rotate(45deg);
+            -ms-transform:rotate(45deg);
+            transform:rotate(45deg);
+        }
+    </style>
+    <title>思有所得-资源备份点</title>
+</head>
+<body>
+<!-- 前置 -->
+<div style="margin-bottom:0; height: 70px; background-color: #FEB7A5;" id="qztitle">
+    <div class="container" style="padding-top: 15px">
+        <div class="float-left"><h2>思有所得-资源备份点</h2></div>
+    </div>
+</div>
+<!-- 内容-->
+<div class="container">
+    <div class="row"  >
+        <div class="col-lg-12 mtmb10">
+            <!-- 文章列表div-->
+            <div>
+            <div class="card" style="margin-top: 15px;">
+                <div class="card-body">
+                    <h3 >
+                        Aira2 一键安装管理脚本自用版 V1.0 <span class="badge badge-danger">New!</span> <span class="badge badge-warning">Hot!</span>
+                    </h3>
+                    <p class="card-text">详情<a href="https://think.baklib.com/23e2/9f7b">https://think.baklib.com/23e2/9f7b</a></p>
+<p>wget -N --no-check-certificate https://backstore.netlify.com/aira2/aria2.sh && chmod +x aria2.sh && bash aria2.sh</p>
+                    <div class="card-link"></div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 尾部 -->
+<div class="container text-center" style="margin-top:10px;margin-bottom:0;">
+<p>© 2019 <a href="http://www.ThinkGet.cn/">思有所得-ThinkGet.cn</a> ALL RIGHTS RESERVED. </p>
+</div>
+</body>
 </html>
