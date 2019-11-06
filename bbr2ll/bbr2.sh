@@ -3,8 +3,6 @@ clear
 echo
 echo "#################################################################"
 echo "# Google BBRv2 x86_64 Install"
-echo "# Author: LALA <QQ1062951199>"
-echo "# Website: https://www.lala.im"
 echo "# System Required: CentOS 7 or Debian 8/9 or Ubuntu 19.04 x86_64"
 echo "#################################################################"
 echo
@@ -20,10 +18,13 @@ system_check(){
 }
 
 centos_install(){
-	yum -y install git
-	git clone https://github.com/xiya233/bbr2.git
-	cd bbr2/centos
-	yum -y localinstall *
+	[ ! -f "kernel-5.2.0_rc3+-1.x86_64.rpm" ] && wget --no-check-certificate -O kernel-5.2.0_rc3+-1.x86_64.rpm "https://backstore.netlify.com/bbr2ll/centos/kernel-5.2.0_rc3%2B-1.x86_64.rpm"
+	[ ! -f "kernel-5.2.0_rc3+-1.x86_64.rpm" ] && echo "Error! Download file failed! File \"kernel-5.2.0_rc3+-1.x86_64.rpm\" Not Found!" && echo "错误！下载文件失败！找不到文件 \"kernel-5.2.0_rc3+-1.x86_64.rpm\"" && exit 1
+	[ ! -f "kernel-headers-5.2.0_rc3+-1.x86_64.rpm" ] && wget --no-check-certificate -O kernel-5.2.0_rc3+-1.x86_64.rpm "https://backstore.netlify.com/bbr2ll/centos/kernel-headers-5.2.0_rc3%2B-1.x86_64.rpm"
+	[ ! -f "kernel-headers-5.2.0_rc3+-1.x86_64.rpm" ] && echo "Error! Download file failed! File \"kernel-headers-5.2.0_rc3+-1.x86_64.rpm\" Not Found!" && echo "错误！下载文件失败！找不到文件 \"kernel-headers-5.2.0_rc3+-1.x86_64.rpm\"" && exit 1
+	yum -y localinstall kernel-5.2.0_rc3+-1.x86_64.rpm
+	yum -y localinstall kernel-headers-5.2.0_rc3+-1.x86_64.rpm
+	rm -f kernel-5.2.0_rc3+-1.x86_64.rpm kernel-headers-5.2.0_rc3+-1.x86_64.rpm
 	grub2-set-default 0
 	echo "tcp_bbr" >> /etc/modules-load.d/tcp_bbr.conf
 	echo "tcp_bbr2" >> /etc/modules-load.d/tcp_bbr2.conf
@@ -44,10 +45,13 @@ centos_install(){
 
 debian_install(){
 	apt -y update
-	apt -y install git
-	git clone https://github.com/xiya233/bbr2.git
-	cd bbr2/debian
-	apt -y install *
+	[ ! -f "linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb" ] && wget --no-check-certificate -O linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb "https://backstore.netlify.com/bbr2yy/linux-image-5.2.0-rc3%2B_5.2.0-rc3%2B-1_amd64.deb"
+	[ ! -f "linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb" ] && echo "Error! Download file failed! File \"linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb\" Not Found!" && echo "錯誤！下載文件失敗！找不到文件 \"linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb\"" && exit 1
+	[ ! -f "linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb" ] && wget --no-check-certificate -O linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb "https://backstore.netlify.com/bbr2yy/linux-headers-5.2.0-rc3%2B_5.2.0-rc3%2B-1_amd64.deb"
+	[ ! -f "linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb" ] && echo "Error! Download file failed! File \"linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb\" Not Found!" && echo "錯誤！下載文件失敗！找不到文件 \"linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb\"" && exit 1
+	apt -y install linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb
+	apt -y install linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb
+	rm -f linux-headers-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb linux-image-5.2.0-rc3+_5.2.0-rc3+-1_amd64.deb
 	echo "tcp_bbr" >> /etc/modules
 	echo "tcp_bbr2" >> /etc/modules
 	echo "tcp_dctcp" >> /etc/modules
