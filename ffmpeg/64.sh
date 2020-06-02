@@ -1,24 +1,17 @@
 
 #!/bin/sh
-echo "开始安装"
-wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-xz -d ffmpeg-release-amd64-static.tar.xz
-tar xvf ffmpeg-release-amd64-static.tar
-Folder_A="/root"
-for file_a in ${Folder_A}/*
-do
-    result=$(echo "$file_a" | grep "ffmpeg" )
-    if [ "$result" != ""  ] ; then
-    resulta=$(echo "$file_a" | grep "tar" )
-      if [ "$resulta" == ""  ] ; then
-        mv $file_a/ffmpeg /usr/bin/ffmpeg
-        mv $file_a/ffprobe /usr/bin/ffprobe
-      fi
-    fi
-done
+echo "ffmpeg4.2.3-x64 start install 开始安装"
+wget -N --no-check-certificate "https://backstore.netlify.app/ffmpeg/x64/ffmpeg.tar.gz"
+wget -N --no-check-certificate "https://backstore.netlify.app/ffmpeg/x64/ffprobe.tar.gz"
+tar -xzvf ffmpeg.tar.gz
+tar -xzvf ffprobe.tar.gz
+mv ffmpeg /usr/bin/ffmpeg
+mv ffprobe /usr/bin/ffprobe
+rm -rf ffmpeg.tar.gz
+rm -rf ffprobe.tar.gz
 resultb=$(ffmpeg -version | grep "ffmpeg version" )
 if [ "$resultb" != ""  ] ; then
-  echo "安装成功"
+  echo "安装成功 install success!"
 else
-  echo "安装失败"
+  echo "安装失败 install fail"
 fi
