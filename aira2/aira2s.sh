@@ -5,7 +5,9 @@ export PATH
 #=================================================
 #	System Required: CentOS/Debian/Ubuntu
 #	Description: Aria2
-#	Version: 1.0
+#	Version: 1.1
+#	Author: thinkget & db
+#	compile: thinkget
 #=================================================
 sh_ver="1.0"
 filepath=$(cd "$(dirname "$0")"; pwd)
@@ -51,14 +53,9 @@ check_pid(){
 	PID=`ps -ef| grep "aria2c"| grep -v grep| grep -v ".sh"| grep -v "init.d"| grep -v "service"| awk '{print $2}'`
 }
 check_new_ver(){
-	aria2_new_ver=$(wget --no-check-certificate -qO- https://backstore.netlify.app/aira2/new.html)
-	if [[ -z ${aria2_new_ver} ]]; then
-		echo -e "${Error} Aria2 最新版本获取失败，请手动获取最新版本号[ https://backstore.netlify.app/aira2/new.html ]"
-		stty erase '^H' && read -p "请输入版本号 [ 格式如 1.35.0 或 1.34.0 ] :" aria2_new_ver
-		[[ -z "${aria2_new_ver}" ]] && echo "取消..." && exit 1
-	else
-		echo -e "${Info} 检测到 Aria2 最新版本为 [ ${aria2_new_ver} ]"
-	fi
+	echo -e "Aria2 请手动输入版本号 1.35.1为过PT检测加强版(仅支持X64)，其他操作系统请选择1.35.0"
+	stty erase '^H' && read -p "请输入版本号 [ 格式如 1.35.0 或 1.35.1 ] :" aria2_new_ver
+	[[ -z "${aria2_new_ver}" ]] && echo "取消..." && exit 1
 }
 check_ver_comparison(){
 	aria2_now_ver=$(${aria2c} -v|head -n 1|awk '{print $3}')
@@ -82,16 +79,16 @@ Download_aria2(){
 	cd "/usr/local"
 	#echo -e "${bit}"
 	if [[ ${bit} == "armv7l" ]]; then
-		wget -N --no-check-certificate "https://backstore.netlify.app/aira2/aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1.tar.bz2"
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1.tar.bz2"
 		Aria2_Name="aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1"
 	elif [[ ${bit} == "aarch64" ]]; then
-		wget -N --no-check-certificate "https://backstore.netlify.app/aira2/aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1.tar.bz2"
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1.tar.bz2"
 		Aria2_Name="aria2-${aria2_new_ver}-linux-gnu-arm-rbpi-build1"
 	elif [[ ${bit} == "x86_64" ]]; then
-		wget -N --no-check-certificate "https://backstore.netlify.app/aira2/aria2-${aria2_new_ver}-linux-gnu-64bit-build1.tar.bz2"
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2-${aria2_new_ver}-linux-gnu-64bit-build1.tar.bz2"
 		Aria2_Name="aria2-${aria2_new_ver}-linux-gnu-64bit-build1"
 	else
-		wget -N --no-check-certificate "https://backstore.netlify.app/aira2/aria2-${aria2_new_ver}-linux-gnu-32bit-build1.tar.bz2"
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2-${aria2_new_ver}-linux-gnu-32bit-build1.tar.bz2"
 		Aria2_Name="aria2-${aria2_new_ver}-linux-gnu-32bit-build1"
 	fi
 	[[ ! -e "${Aria2_Name}.tar.bz2" ]] && echo -e "${Error} Aria2 压缩包下载失败 !" && exit 1
@@ -109,23 +106,23 @@ Download_aria2(){
 }
 Download_aria2_conf(){
 	mkdir "${file}" && cd "${file}"
-	wget --no-check-certificate -N "https://backstore.netlify.app/aira2/aria2.conf"
+	wget --no-check-certificate -N "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2.conf"
 	[[ ! -s "aria2.conf" ]] && echo -e "${Error} Aria2 配置文件下载失败 !" && rm -rf "${file}" && exit 1
-	wget --no-check-certificate -N "https://backstore.netlify.app/aira2/dht.dat"
+	wget --no-check-certificate -N "https://raw.githubusercontent.com/chxin579/backstore/master/aira2/dht.dat"
 	[[ ! -s "dht.dat" ]] && echo -e "${Error} Aria2 DHT文件下载失败 !" && rm -rf "${file}" && exit 1
 	echo '' > aria2.session
 	sed -i 's/^rpc-secret=DOUBIToyo/rpc-secret='$(date +%s%N | md5sum | head -c 20)'/g' ${aria2_conf}
 }
 Service_aria2(){
 	if [[ ${release} = "centos" ]]; then
-		if ! wget --no-check-certificate https://backstore.netlify.app/aira2/aria2_centos -O /etc/init.d/aria2; then
+		if ! wget --no-check-certificate https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2_centos -O /etc/init.d/aria2; then
 			echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
 		fi
 		chmod +x /etc/init.d/aria2
 		chkconfig --add aria2
 		chkconfig aria2 on
 	else
-		if ! wget --no-check-certificate https://backstore.netlify.app/aira2/aria2_debian -O /etc/init.d/aria2; then
+		if ! wget --no-check-certificate https://raw.githubusercontent.com/chxin579/backstore/master/aira2/aria2_debian -O /etc/init.d/aria2; then
 			echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
 		fi
 		chmod +x /etc/init.d/aria2
