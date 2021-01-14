@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "此为远程更新配置文件测试"
+echo "姝や负杩滅▼鏇存柊閰嶇疆鏂囦欢娴嬭瘯"
