@@ -1,8 +1,8 @@
 
 #!/bin/sh
 echo "ffmpeg4.2.3-x64 start install 开始安装"
-wget -N --no-check-certificate "https://backstore.netlify.app/ffmpeg/x64/ffmpeg.tar.gz"
-wget -N --no-check-certificate "https://backstore.netlify.app/ffmpeg/x64/ffprobe.tar.gz"
+wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/ffmpeg/x64/ffmpeg.tar.gz"
+wget -N --no-check-certificate "https://raw.githubusercontent.com/chxin579/backstore/master/ffmpeg/x64/ffprobe.tar.gz"
 tar -xzvf ffmpeg.tar.gz
 tar -xzvf ffprobe.tar.gz
 mv ffmpeg /usr/bin/ffmpeg
