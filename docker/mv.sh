@@ -1,5 +1,9 @@
 #! /bin/bash
-#! move file tools v3
+#! move file tools v4
+#v4:add dir check
+#v3:fix error message
+
+
 function read_dir(){
 IFS_BACKUP=$IFS
 IFS=$(echo -en "\n\b")
@@ -24,6 +28,13 @@ do
 done
 IFS=$IFS_BACKUP
 } 
-#读取第一个参数
+
+
+if [ ! -d /down/up  ];then
+  mkdir /down/up
+else
+  echo "downup dir exist"
+fi
+
 read_dir '/down'
 echo "finish moved"
