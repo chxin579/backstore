@@ -3,6 +3,7 @@
 echo "更新Update OneShareUpload"
 wget -q http://file.thiinkget.eu.org/uploads/LinuxX64/OneShareUpload -O /usr/local/bin/OneShareUpload && chmod +x /usr/local/bin/OneShareUpload
 
+cd /root
 OneShareUpload -n
 
 echo "更新Update mv.sh"
